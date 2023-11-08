@@ -17,13 +17,13 @@ urlpatterns = [
     path(route='contact/', view=views.contact, name='contact'),
 
     # path for registration
-    #path(route='', view=views.registration_request, name='register'),
+    path(route='registration/', view=views.registration_request, name='registration'),
 
     # path for login
-    #path(route='', view=views.login_request, name='login'),
+    path(route='login/', view=views.login_request, name='login'),
 
     # path for logout
-    #path(route='', view=views.logout_request, name='logout'),
+    path(route='logout/', view=views.logout_request, name='logout'),
 
     # path for dealer reviews view
     #path(route='dealer/<int:dealer_id>/', view=views.get_dealer_details, name='dealer_details'),
