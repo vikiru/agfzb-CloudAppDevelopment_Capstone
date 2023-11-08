@@ -12,6 +12,8 @@ from requests.auth import HTTPBasicAuth
 load_dotenv(dotenv_path='../server/.env')
 
 IAM_API_KEY = os.environ.get("IAM_API_KEY")
+NLU_URL = os.environ.get("NLU_URL")
+NLU_API_KEY = os.environ.get("NLU_API_KEY")
 
 # Create a `get_request` to make HTTP GET requests
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
@@ -25,9 +27,9 @@ def get_request(url, **kwargs):
     params["features"] = kwargs["features"]
     params["return_analyzed_text"] = kwargs["return_analyzed_text"]
     try:
-        if IAM_API_KEY:
+        if NLU_API_KEY:
             response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
-                                    auth=HTTPBasicAuth('apikey', IAM_API_KEY))
+                                    auth=HTTPBasicAuth('apikey', NLU_API_KEY))
         else:
             response = requests.get(url, params=params)
     except Exception as e:
@@ -60,7 +62,6 @@ def get_dealers_from_cf(url, **kwargs):
     json_result = get_request(url)
     if json_result:
         dealers = json_result["rows"]
-
         for dealer in dealers:
             dealer_doc = dealer['doc']
             print(dealer_doc)
@@ -101,6 +102,9 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(dealerreview):
-
-
-
+    version = '2022-04-07'
+    return_analyzed_text = True
+    text = dealerreview
+    features = {"sentiment":{}}
+    response = get_request(NLU_URL, text=text, return_analyzed_text=return_analyzed_text, features=features, version=version)
+    print(response)

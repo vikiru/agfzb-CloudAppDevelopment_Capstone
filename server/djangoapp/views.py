@@ -12,13 +12,17 @@ from datetime import datetime
 import logging
 import json
 
+from dotenv import find_dotenv, load_dotenv
+import os
+load_dotenv(dotenv_path='../server/.env')
+
+GET_REVIEW_URL = os.environ.get("REVIEW_URL")
+POST_REVIEW_URL = os.environ.get("POST_REVIEW_URL")
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
-
 # Create your views here.
-
-
 # Create an `about` view to render a static about page
 def about(request):
     return render(request, 'djangoapp/about.html')
@@ -87,7 +91,7 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id, dealer_name):
     if request.method == "GET":
         context = {}
-        url = "https://us-south.functions.appdomain.cloud/api/v1/web/80dba8ac-9699-4879-a3ff-49b1c42351e5/review-package/get-review.json"
+        url = GET_REVIEW_URL
         # Get dealers from the URL
         context['reviews'] = get_dealer_reviews_from_cf(url,dealer_id=dealer_id)
         context['dealer'] = dealer_name
@@ -115,7 +119,7 @@ def add_review(request, dealer_id, dealer_name):
             'car_year': car.year.strftime("%Y"),
             'purchase_date': datetime.strptime(request.POST['date'], "%m/%d/%Y").isoformat()
         }
-        url= "https://us-south.functions.appdomain.cloud/api/v1/web/80dba8ac-9699-4879-a3ff-49b1c42351e5/review-package/create-review"
+        url= POST_REVIEW_URL
         post_request(url=url, json_payload=json_payload)
         return redirect("djangoapp:dealer_details", dealer_id=dealer_id, dealer_name=dealer_name)
     else:
