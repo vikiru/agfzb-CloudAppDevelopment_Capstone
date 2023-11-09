@@ -16,7 +16,8 @@ from dotenv import find_dotenv, load_dotenv
 import os
 load_dotenv(dotenv_path='../server/.env')
 
-GET_REVIEW_URL = os.environ.get("REVIEW_URL")
+GET_DEALER_URL = os.environ.get('GET_DEALER_URL')
+GET_REVIEW_URL = os.environ.get("GET_REVIEW_URL")
 POST_REVIEW_URL = os.environ.get("POST_REVIEW_URL")
 
 # Get an instance of a logger
@@ -81,6 +82,7 @@ def registration_request(request):
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
     context = {}
+    context['dealers'] = get_dealers_from_cf(GET_DEALER_URL)
     if request.method == "GET":
         return render(request, 'djangoapp/index.html', context)
 
@@ -91,7 +93,7 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id, dealer_name):
     if request.method == "GET":
         context = {}
-        url = GET_REVIEW_URL
+        url = GET_REVIEW_URL + f'?id={dealer_id}'
         # Get dealers from the URL
         context['reviews'] = get_dealer_reviews_from_cf(url,dealer_id=dealer_id)
         context['dealer'] = dealer_name
