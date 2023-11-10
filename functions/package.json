@@ -4,11 +4,12 @@
   "description": "",
   "main": "get-dealership.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@cloudant/cloudant": "^4.5.1",
     "dotenv": "^16.3.1",
