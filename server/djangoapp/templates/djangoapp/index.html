@@ -103,7 +103,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for dealer in dealers %}
+          {%if dealers %} {% for dealer in dealers %}
           <tr>
             <td>{{ dealer.id }}</td>
             <td>
@@ -117,7 +117,7 @@
             <td>{{ dealer.zip }}</td>
             <td>{{ dealer.city }}</td>
           </tr>
-          {% endfor %}
+          {% endfor %} {%endif%}
         </tbody>
       </table>
     </div>
