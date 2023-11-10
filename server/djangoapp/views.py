@@ -120,8 +120,7 @@ def add_review(request, dealer_id, dealer_name):
         print(request.POST)
         car = CarModel.objects.get(pk=int(request.POST['car']))
         json_payload = {
-            'id': dealer_id,
-            'dealership': dealer_name,
+            'dealership': dealer_id,
             'name': request.user.username,
             'review': request.POST['review'],
             'purchase': bool(request.POST.get('purchase',False)),

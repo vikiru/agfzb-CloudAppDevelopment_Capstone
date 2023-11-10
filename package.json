@@ -1,0 +1,17 @@
+{
+  "name": "ibm-fullstack-capstone",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Capstone project for the IBM Full Stack Software Developer Professional Certificate.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "dependencies": {
+    "@cloudant/cloudant": "^4.5.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "author": "Visakan Kirubakaran",
+  "license": "Apache-2.0"
+}
