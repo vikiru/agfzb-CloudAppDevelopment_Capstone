@@ -27,8 +27,8 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", 'localhost:8000', "127.0.0.1:8000", "https://visking54-8000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai"]
+CSRF_TRUSTED_ORIGINS = ["https://visking54-8000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai"]
 
 # Application definition
 
@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
 ]
 
 MIDDLEWARE = [
