@@ -9,11 +9,72 @@
     />
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'djangoapp:index' %}"
+        >Dealership Review</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact</a>
+          </li>
+        </ul>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li>
+          <a class="btn btn-link" href="#"
+            >{{ user.first_name }}({{ user.username }})</a
+          >
+          <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+        </li>
+        {% else %}
+        <li>
+          <form
+            class="form-inline"
+            action="{% url 'djangoapp:login' %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                name="username"
+              />
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                name="psw"
+              />
+              <button class="btn btn-primary" type="submit">Login</button>
+            </div>
+          </form>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
     <!--Add a registration form here -->
     <form action="{% url 'djangoapp:registration' %}" method="post">
-      <div class="container">
+      <div class="container-fluid">
         {% csrf_token %}
-        <h1>Sign Up</h1>
+        <h1 align="center">Sign Up</h1>
         <hr />
         <div class="form-group">
           <label for="username"><b>User Name</b></label>
@@ -52,7 +113,9 @@
           {% if message %}
           <div class="alert alert-warning">{{ message }}</div>
           {% endif %}
-          <button class="btn btn-primary" type="submit">Sign up</button>
+          <div class="d-flex justify-content-center mx-auto">
+            <button class="btn btn-primary" type="submit">Sign up</button>
+          </div>
         </div>
       </div>
     </form>

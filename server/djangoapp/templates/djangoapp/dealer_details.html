@@ -1,18 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Dealership Review</title>
     {% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link
+      href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+  </head>
 
-    <body>
-
+  <body>
     <!--Add a nav bar here -->
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'djangoapp:index' %}"
+        >Dealership Review</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact</a>
+          </li>
+        </ul>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li>
+          <a class="btn btn-link" href="#"
+            >{{ user.first_name }}({{ user.username }})</a
+          >
+          <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+        </li>
+        {% else %}
+        <li>
+          <form
+            class="form-inline"
+            action="{% url 'djangoapp:login' %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                name="username"
+              />
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                name="psw"
+              />
+              <button class="btn btn-primary" type="submit">Login</button>
+            </div>
+          </form>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <h1 align="center">{{dealer.full_name}}</h1>
     <!-- Add reviews as cards -->
+    {% if reviews %} {% if user.is_authenticated %}
+    <div class="d-flex justify-content-center mx-auto">
+      <a
+        class="btn btn-primary"
+        href="{% url 'djangoapp:add_review' dealer_id dealer_name %}"
+        ><b>Write a car review</b></a
+      >
+    </div>
+    {% endif %}
+    <div class="card-columns">
+      {%if reviews %} {% for review in reviews %}
+      <div class="card" style="overflow: none; overflow-x: hidden">
+        <p>
+          <img
+            src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png"
+            class="card-img-left"
+            style="
+              float: left;
+              height: 40px;
+              width: 40px;
+              display: inline-block;
+            "
+          />&nbsp; {{review.name}} - {{review.purchase_date}}
+        </p>
+        {% if review.car_make %}
+        <div class="card" style="width: 18rem">
+          <div class="card-body" style="text-align: center">
+            <h5 class="card-title">
+              {{ review.car_make}}, {{review.car_model}}
+            </h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">
+              {{review.car_year}}
+            </h6>
+            <p class="card-text" text-align="center">{{review.review}}</p>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div
+        class="card"
+        style="height: 300px; overflow: scroll; overflow-x: hidden"
+      >
+        <img
+          src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png"
+          class="card-img-left"
+          style="float: left; height: 40px; width: 40px; display: inline-block"
+        />
+        <div class="card-body" style="text-align: center">
+          <h5 class="card-title" style="display: inline-block">Review</h5>
+          <h5 class="card-title"></h5>
+          <p class="card-text" style="text-align: left">{{ review.review }}</p>
+        </div>
+      </div>
+      {%endif%}{% endfor %}
+    </div>
 
-    </body>
-
+    {%endif%}{% else %}
+    <p>There are no reviews for this dealership.</p>
+    {% if user.is_authenticated %}
+    <div class="d-flex justify-content-center mx-auto">
+      <a
+        class="btn btn-primary"
+        href="{% url 'djangoapp:add_review' dealer_id dealer_name %}"
+        ><b>Write a car review</b></a
+      >
+    </div>
+    {% endif %} {% endif %}
+  </body>
 </html>
