@@ -78,6 +78,9 @@
                 name="psw"
               />
               <button class="btn btn-primary" type="submit">Login</button>
+              <a class="btn btn-link" href="{% url 'djangoapp:registration' %}"
+                >Sign Up</a
+              >
             </div>
           </form>
         </li>
@@ -85,7 +88,7 @@
       </ul>
     </nav>
     <!--Add a dealer table here -->
-    <div class="container mx-auto my-5 px-5">
+    <div class="container-fluid mx-auto my-5 px-5">
       <table class="table table-hover table-striped" data-filter-control="true">
         <thead>
           <tr>

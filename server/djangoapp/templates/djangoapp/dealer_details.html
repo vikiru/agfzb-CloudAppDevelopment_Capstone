@@ -8,6 +8,15 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link
+      href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
   </head>
 
   <body>
@@ -73,9 +82,10 @@
         {% endif %}
       </ul>
     </nav>
+    <h1 align="center">{{dealer.full_name}}</h1>
     <!-- Add reviews as cards -->
     {% if reviews %} {% if user.is_authenticated %}
-    <div style="margin: 10px">
+    <div class="d-flex justify-content-center mx-auto">
       <a
         class="btn btn-primary"
         href="{% url 'djangoapp:add_review' dealer_id dealer_name %}"
@@ -84,22 +94,31 @@
     </div>
     {% endif %}
     <div class="card-columns">
-      {% for review in reviews %} {% if review.car_make %}
-      <div
-        class="card"
-        style="height: 300px; overflow: scroll; overflow-x: hidden"
-      >
-        <img
-          src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png"
-          class="card-img-left"
-          style="float: left; height: 40px; width: 40px; display: inline-block"
-        />
-        <div class="card-body" style="text-align: center">
-          <h5 class="card-title" style="display: inline-block">
-            {{ review.car_make }}, {{ review.car_model }}
-          </h5>
-          <h5 class="card-title">{{ review.car_year }}</h5>
-          <p class="card-text" style="text-align: left">{{ review.review }}</p>
+      {%if reviews %} {% for review in reviews %}
+      <div class="card" style="overflow: none; overflow-x: hidden">
+        <p>
+          <img
+            src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png"
+            class="card-img-left"
+            style="
+              float: left;
+              height: 40px;
+              width: 40px;
+              display: inline-block;
+            "
+          />&nbsp; {{review.name}} - {{review.purchase_date}}
+        </p>
+        {% if review.car_make %}
+        <div class="card" style="width: 18rem">
+          <div class="card-body" style="text-align: center">
+            <h5 class="card-title">
+              {{ review.car_make}}, {{review.car_model}}
+            </h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">
+              {{review.car_year}}
+            </h6>
+            <p class="card-text" text-align="center">{{review.review}}</p>
+          </div>
         </div>
       </div>
       {% else %}
@@ -118,13 +137,13 @@
           <p class="card-text" style="text-align: left">{{ review.review }}</p>
         </div>
       </div>
-      {% endif %} {% endfor %}
+      {%endif%}{% endfor %}
     </div>
 
-    {% else %}
+    {%endif%}{% else %}
     <p>There are no reviews for this dealership.</p>
     {% if user.is_authenticated %}
-    <div style="margin: 10px">
+    <div class="d-flex justify-content-center mx-auto">
       <a
         class="btn btn-primary"
         href="{% url 'djangoapp:add_review' dealer_id dealer_name %}"
