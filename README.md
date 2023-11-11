@@ -23,7 +23,7 @@ cd ibm-fullstack-capstone
       ```bash
       npm install
       ```
-3. Setup the `.env` file with the required values
+3. Setup the `.env` file with the required values (located within `ibm-fullstack-capstone/server/.env.sample`)
 
    ```text
    # Cloudant Service on IBM Cloud
