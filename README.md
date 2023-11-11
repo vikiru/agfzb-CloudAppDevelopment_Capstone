@@ -23,6 +23,45 @@ cd ibm-fullstack-capstone
       ```bash
       npm install
       ```
+3. Setup the `.env` file with the required values
+
+   ```text
+   # Cloudant Service on IBM Cloud
+   IAM_API_KEY = "YOUR-KEY-HERE"
+   CLOUDANT_URL = "YOUR-URL-HERE"
+   CLOUDANT_USERNAME = "YOUR-USERNAME-HERE"
+
+   # Serverless Function on IBM Cloud
+   # Can also use reviews.py and get-dealership.js within functions folder to test locally
+   GET_DEALER_URL = "YOUR-URL-HERE"
+   GET_REVIEW_URL = "YOUR-URL-HERE"
+   POST_REVIEW_URL = "YOUR-URL-HERE"
+
+   # NLU Service on IBM Cloud
+   NLU_API_KEY = "YOUR-KEY-HERE"
+   NLU_URL = "YOUR-URL-HERE"
+   ```
+
+## Usage
+
+1. Start the main Django App
+
+```bash
+cd server
+python manage.py runserver
+```
+
+### Local Development
+
+1. Start the function files located within `ibm-fullstack-capstone/functions`
+   1. Start `get-dealership.js`
+      ```bash
+      npm start
+      ```
+   2. Start `reviews.py`
+      ```bash
+      python reviews.py
+      ```
 
 ## Project Breakdown
 
